@@ -34,7 +34,7 @@ const Login = () => {
             {isSignIn === false && <input
               className='p-3 rounded-sm bg-gray-800 bg-opacity-40 text-white w-full'
               type='text'
-              placeholder='Name'
+              placeholder='Name' required
             />}
             <input ref={email}
               className='p-3 rounded-sm bg-gray-800 bg-opacity-40 text-white w-full'

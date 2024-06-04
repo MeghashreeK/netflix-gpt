@@ -1,29 +1,58 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { ValidateForm } from '../utils/ValidateForm';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged   } from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser } from '../utils/UserSlice';
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState([]);
   const email = useRef(null);
   const password = useRef(null);
+  const name = useRef(null);
+  const navigate=useNavigate();
 
+const dispatch=useDispatch();
   const tocheckSignIn = () => {
     setIsSignIn(!isSignIn);
   }
+ 
+  console.log(name);
 
   const handleButtonEvent = () => {
     const message = ValidateForm(email.current.value, password.current.value);
     setErrorMessage(message);
-    if (!message) return;
+    if (message) return;
     if (!isSignIn) {
 
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          updateProfile(auth.currentUser, {
+            displayName: name.current.value, photoURL: "https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
+          }).then(() => {
+                const { uid, email, displayName, photoURL } = auth.currentUser;
+                dispatch(
+                  addUser({
+                    uid: uid,
+                    email: email,
+                    displayName: displayName,
+                    photoURL: photoURL,
+                  })
+                );
+                navigate("/browse");
+              } 
+        ).then(()=>{
+          navigate("/browser");
+        }).catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -36,6 +65,20 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        updateProfile(auth.currentUser, {
+          displayName: name.current.value, photoURL: "https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
+        }).then(()=>{
+          const { uid, email, displayName, photoURL } = auth.currentUser;
+            dispatch(
+              addUser({
+                uid: uid,
+                email: email,
+                displayName: displayName,
+                photoURL: photoURL,
+              })
+            );
+        })
+        
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -57,7 +100,7 @@ const Login = () => {
         <div className='flex flex-col w-full gap-5'>
           <p className='text-white font-bold text-3xl'>{isSignIn === false ? 'Sign Up' : 'Sign In'}</p>
           <div className='flex flex-col gap-5'>
-            {isSignIn === false && <input
+            {isSignIn === false && <input ref={name}
               className='p-3 rounded-sm bg-gray-800 bg-opacity-40 text-white w-full'
               type='text'
               placeholder='Name' required
@@ -94,3 +137,4 @@ const Login = () => {
 };
 
 export default Login;
+

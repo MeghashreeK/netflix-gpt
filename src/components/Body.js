@@ -23,23 +23,23 @@ const Body = () => {
         }
     ])
 
-    useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-              const { uid, email, displayName, photoURL } = auth.currentUser;
-              dispatch(
-                addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
-                })
-              );
-            } else {
-              dispatch(removeUser());
-            }
-          });
-    },[])
+    // useEffect(()=>{
+    //     onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //           const { uid, email, displayName, photoURL } = auth.currentUser;
+    //           dispatch(
+    //             addUser({
+    //               uid: uid,
+    //               email: email,
+    //               displayName: displayName,
+    //               photoURL: photoURL,
+    //             })
+    //           );
+    //         } else {
+    //           dispatch(removeUser());
+    //         }
+    //       });
+    // },[])
 
   return (
 <div>

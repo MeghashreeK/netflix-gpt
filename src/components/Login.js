@@ -35,6 +35,7 @@ const dispatch=useDispatch();
           updateProfile(auth.currentUser, {
             displayName: name.current.value, photoURL: "https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
           }).then(() => {
+            console.log(auth.currentUser);
                 const { uid, email, displayName, photoURL } = auth.currentUser;
                 dispatch(
                   addUser({
@@ -46,9 +47,7 @@ const dispatch=useDispatch();
                 );
                 navigate("/browse");
               } 
-        ).then(()=>{
-          navigate("/browser");
-        }).catch((error) => {
+        ).catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
@@ -65,20 +64,23 @@ const dispatch=useDispatch();
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        updateProfile(auth.currentUser, {
-          displayName: name.current.value, photoURL: "https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
-        }).then(()=>{
-          const { uid, email, displayName, photoURL } = auth.currentUser;
-            dispatch(
-              addUser({
-                uid: uid,
-                email: email,
-                displayName: displayName,
-                photoURL: photoURL,
-              })
-            );
-        })
-        
+      })
+      .then(()=>{
+        {
+          console.log(auth.currentUser);
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            } 
+      })
+      .then(()=>{
+        navigate("/browser");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -137,4 +139,3 @@ const dispatch=useDispatch();
 };
 
 export default Login;
-

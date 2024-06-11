@@ -2,10 +2,10 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { ValidateForm } from '../utils/ValidateForm';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged   } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useDispatch } from 'react-redux';
-import { addUser, removeUser } from '../utils/UserSlice';
+import { addUser } from '../utils/UserSlice';
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -13,45 +13,51 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
-  const navigate=useNavigate();
 
-const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const tocheckSignIn = () => {
     setIsSignIn(!isSignIn);
   }
- 
-  console.log(name);
+
+  // console.log(name);
 
   const handleButtonEvent = () => {
     const message = ValidateForm(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
     if (!isSignIn) {
-
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
+          // console.log(auth);
           const user = userCredential.user;
           console.log(user);
-          updateProfile(auth.currentUser, {
+          updateProfile(user, {
             displayName: name.current.value, photoURL: "https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
           }).then(() => {
-            console.log(auth.currentUser);
-                const { uid, email, displayName, photoURL } = auth.currentUser;
-                dispatch(
-                  addUser({
-                    uid: uid,
-                    email: email,
-                    displayName: displayName,
-                    photoURL: photoURL,
-                  })
-                );
-                navigate("/browse");
-              } 
-        ).catch((error) => {
+            const { uid, email, displayName, photoURL } = user;
+            // console.log(auth.currentUser);
+            dispatch(
+              addUser({
+                uid: uid,
+                email: email,
+                displayName: displayName,
+                photoURL: photoURL,
+              })
+            );
+          }
+          )
+        }).catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
-          });
+        });
+
+    }
+    else {
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -59,36 +65,65 @@ const dispatch=useDispatch();
           setErrorMessage(errorCode + "-" + errorMessage);
         });
     }
-    else {
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .then(()=>{
-        {
-          console.log(auth.currentUser);
-              const { uid, email, displayName, photoURL } = auth.currentUser;
-              dispatch(
-                addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
-                })
-              );
-            } 
-      })
-      .then(()=>{
-        navigate("/browser");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(errorCode + "-" + errorMessage);
-      });
-    }
   }
+
+
+  // const handleButtonClick = () => {
+  //   const message = checkValidData(email.current.value, password.current.value);
+  //   setErrorMessage(message);
+  //   if (message) return;
+
+  //   if (!isSignInForm) {
+  //     // Sign Up Logic
+  //     createUserWithEmailAndPassword(
+  //       auth,
+  //       email.current.value,
+  //       password.current.value
+  //     )
+  //       .then((userCredential) => {
+  //         const user = userCredential.user;
+  //         updateProfile(user, {
+  //           displayName: name.current.value,
+  //           photoURL: USER_AVATAR,
+  //         })
+  //           .then(() => {
+  //             const { uid, email, displayName, photoURL } = auth.currentUser;
+  //             dispatch(
+  //               addUser({
+  //                 uid: uid,
+  //                 email: email,
+  //                 displayName: displayName,
+  //                 photoURL: photoURL,
+  //               })
+  //             );
+  //           })
+  //           .catch((error) => {
+  //             setErrorMessage(error.message);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         const errorCode = error.code;
+  //         const errorMessage = error.message;
+  //         setErrorMessage(errorCode + "-" + errorMessage);
+  //       });
+  //   } else {
+  //     // Sign In Logic
+  //     signInWithEmailAndPassword(
+  //       auth,
+  //       email.current.value,
+  //       password.current.value
+  //     )
+  //       .then((userCredential) => {
+  //         // Signed in
+  //         const user = userCredential.user;
+  //       })
+  //       .catch((error) => {
+  //         const errorCode = error.code;
+  //         const errorMessage = error.message;
+  //         setErrorMessage(errorCode + "-" + errorMessage);
+  //       });
+  //   }
+  // };
 
   return (
     <div className='relative w-full h-screen'>
@@ -139,3 +174,6 @@ const dispatch=useDispatch();
 };
 
 export default Login;
+
+
+

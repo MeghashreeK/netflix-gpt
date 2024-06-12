@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Browser = () => {
   // const picURL = imgData[0].photoURL;
-  const navigate=useNavigate();
 
 
 

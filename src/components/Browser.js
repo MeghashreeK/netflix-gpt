@@ -12,14 +12,7 @@ const Browser = () => {
 
   return (
     <div>
-      <div className='flex justify-between'>
-        <div className='absolute left-0 top-0 -z-10 w-full'>
-          <Header />
-        </div>
-        <div className='flex p-2 gap-4 absolute top-0 sm:left-[93%] left-[75%]'>
-          {/* <img className='w-8 h-8' alt="profile-pic" src={picURL} /> */}
-        </div>
-      </div>
+      <Header/>
     </div>
 
   )

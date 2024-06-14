@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import Header from './Header';
 import { ValidateForm } from '../utils/ValidateForm';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/UserSlice';
 
 
 const Login = () => {
@@ -11,6 +13,7 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
+  const dispatch=useDispatch();
 
   const tocheckSignIn = () => {
     setIsSignIn(!isSignIn);
@@ -27,6 +30,16 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          updateProfile(auth.currentUser, {
+            displayName: name.current.value
+          }).then(() => {
+            const { uid, email, displayName } = user;
+            dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+          }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorCode + "-" + errorMessage);
+          });
         })
         .catch((error) => {
           const errorCode = error.code;

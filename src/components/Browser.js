@@ -1,23 +1,10 @@
 import React, { useEffect } from 'react'
 import Header from './Header'
-import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
-import { API_OPTIONS } from '../utils/constants';
-import { addNowPlayingMovies } from '../utils/MoviesSlice';
-
+import useNowPlayingMovies from '../customHooks/useNowPlayingMovies'
 
 const Browser = () => {
 
-const dispatch=useDispatch();
-useEffect(()=>{getNowPlayingData()},[]);
-
-const getNowPlayingData=async()=>{
-  const data= await fetch("https://api.themoviedb.org/3/movie/now_playing",API_OPTIONS);
-  const json=await data.json();
-  console.log(json);
-  dispatch(addNowPlayingMovies(json));
-}
+  useNowPlayingMovies();
 
   return (
     <div>

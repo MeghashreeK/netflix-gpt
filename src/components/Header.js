@@ -34,10 +34,10 @@ const Header = () => {
     },[])
    
     return (
-        <div className='absolute'>
+        <div className='absolute z-10'>
             <div className='flex font-bold p-2 text-red-600 Bebas text-4xl bg-gradient-to-b from-black w-screen relative justify-between'>
                 <p>NIRVANA</p>
-                {window.location.pathname==="/browse" && (<img className='w-8 h-8 cursor-pointer' onClick={handleSignOut} src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/E53E3E/external-logout-screen-from-the-working-portfolio-of-a-user-classic-bold-tal-revivo.png" alt="external-logout-screen-from-the-working-portfolio-of-a-user-classic-bold-tal-revivo"/>)
+                {window.location.pathname==="/browse" && (<img className='w-8 h-8 cursor-pointer' onClick={handleSignOut} src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/E53E3E/external-logout-screen-from-the-working-portfolio-of-a-user-classic-bold-tal-revivo.png" alt="signout-icon"/>)
                 }
             </div>
         </div>

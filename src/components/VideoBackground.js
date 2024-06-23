@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useTrailerVideo from '../customHooks/useTrailerVideo'
 import { useSelector } from 'react-redux';
 
 const VideoBackground = ({ movieId }) => {
- 
+
   const Trailer=useSelector(store=>store.addMovie?.trailerList);
+  // const noise=useSelector(store=>store.noiseValue.noiseObj);
   useTrailerVideo(movieId);
   
   return (
@@ -15,4 +16,6 @@ const VideoBackground = ({ movieId }) => {
   )
 }
 
-export default VideoBackground
+export default VideoBackground;
+
+

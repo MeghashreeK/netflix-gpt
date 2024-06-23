@@ -16,7 +16,7 @@ const MainContainer = () => {
     
 
   return (
-    <div className='hidden sm:flex'>
+    <div>
         <VideoTitle title={title} overview={overview} imgpath={backdrop_path} />
         <VideoBackground movieId={id}/>
     </div>

@@ -8,7 +8,7 @@ const VideoTitle = ({ title, overview, imgpath }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setshowOverview(false);
-    }, 500000);
+    }, 4000);
 
     return () => { clearTimeout(timer); }
   }, []);
@@ -21,7 +21,7 @@ const VideoTitle = ({ title, overview, imgpath }) => {
   return (
     <div className='pt-[25%] absolute text-white bg-gradient-to-r from-black w-screen aspect-video pl-5 z-0'>
       <div>
-        <h1 className={`font-bold mb-2 text-2xl sm:${removeOverview ? "text-5xl" : "text-9xl"}`}>{title}</h1>
+        <h1 className={`font-bold mb-2 ${removeOverview ? "text-xl sm:text-5xl" : "text-xl sm:text-7xl"}`}>{title}</h1>
        {(!removeOverview) && <p className={`w-2/5 hidden lg:block transition duration-1000 ${showOverview ? "opacity-100" : "opacity-0"}`} onTransitionEnd={handleTransitionEnd}>
           {overview}
         </p>}

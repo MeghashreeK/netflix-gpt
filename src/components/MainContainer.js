@@ -1,16 +1,14 @@
 import VideoTitle from './VideoTitle'
 import VideoBackground from './VideoBackground'
 import { useSelector } from 'react-redux'
-import { API_OPTIONS } from '../utils/constants'
-import { useEffect } from 'react'
 
 const MainContainer = () => {
-    const movie=useSelector((store)=>store.addMovie?.moviesList);
- 
-    if(!movie) return;
+    const movie=useSelector((store)=>store.addMovie?.nowPlayingMoviesList);
 
-    const firstMovie=movie[0];
-    console.log(firstMovie);
+    if(!movie) return;
+    // console.log(movie);
+    const firstMovie=movie[3];
+    // console.log(firstMovie);
     const {title,overview,id,backdrop_path}=firstMovie;
 
     

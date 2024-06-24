@@ -26,6 +26,18 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     }
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-none': {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+          '-ms-overflow-style': 'none', 
+          'scrollbar-width': 'none', 
+        },
+      }, ['responsive']);
+    },
+  ],
 }
 

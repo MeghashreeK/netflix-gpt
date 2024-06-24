@@ -14,8 +14,8 @@ const MoviesList = ({ title, movie }) => {
   };
 
   return (
-    <div className='pl-5'>
-      <h1 className='text-white'>{title}</h1>
+    <div className='pl-2 sm:pl-5'>
+      <h1 className='text-white mb-3 font-bold'>{title}</h1>
       <div className='flex items-center relative'>
         <img className="cursor-pointer absolute left-0 z-10 w-10 h-10" src="https://img.icons8.com/ios/50/ffffff/less-than.png" onClick={scrollLeft} alt="less-than" />
         <div className='flex overflow-x-scroll scrollbar-none' ref={scrollContainerRef}>

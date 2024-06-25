@@ -19,7 +19,7 @@ const MoviesList = ({ title, movie }) => {
       <div className='flex items-center relative'>
         <img className="cursor-pointer absolute left-0 z-10 w-10 h-10" src="https://img.icons8.com/ios/50/ffffff/less-than.png" onClick={scrollLeft} alt="less-than" />
         <div className='flex overflow-x-scroll scrollbar-none' ref={scrollContainerRef}>
-          <div className='flex gap-3'>
+          <div className='flex gap-3 cursor-pointer'>
             {movie && movie.map((movie) => <MoviesCard key={movie.id} posterpath={movie.poster_path} />)}
           </div>
         </div>

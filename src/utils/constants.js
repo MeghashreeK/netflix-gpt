@@ -7,3 +7,5 @@ export const API_OPTIONS = {
     },
   };
 export const IMG_LINK="https://image.tmdb.org/t/p/w500/";
+
+export const LANGUAGE_SUPPORT=[{name:"English",identifier:"EN"},{name:"Hindi",identifier:"HI"},{name:"Spanish",identifier:"ES"}]

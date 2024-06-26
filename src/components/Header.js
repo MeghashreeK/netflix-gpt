@@ -3,15 +3,18 @@ import { auth } from '../utils/firebase';
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser, removeUser } from '../utils/UserSlice';
 import { useEffect } from 'react';
+import { gptToggleFunction } from '../utils/GptSearchSlice';
 
 const Header = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [arrowState, setArrowState] = useState(false);
+    const gptSearchValue=useSelector(store=>store.gptstate.gptToggle);
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -47,10 +50,10 @@ const Header = () => {
                         <div className='flex items-center gap-1'>
                             <img width="24" height="24" src={arrowState ? "https://img.icons8.com/material-sharp/24/ffffff/sort-up.png" : "https://img.icons8.com/material-sharp/24/ffffff/sort-down.png"} alt="sort-down" onClick={handleArrowIconFunction} />                    <img className='w-8 h-8 cursor-pointer' onClick={handleSignOut} src="https://occ-0-1492-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e" alt="profile-icon" />
                             </div>
-                            <div className='border-2 text-white p-2'>
-                                <p className='cursor-pointer'>GPT Search</p>
+                            {(arrowState) && <div className='border-2 text-white p-2'>
+                                <p className='cursor-pointer' onClick={()=>dispatch(gptToggleFunction())}>{gptSearchValue ? "Home" : "Gpt Search"}</p>
                                 <p className='cursor-pointer'>Sign Out</p>
-                            </div>
+                            </div>}
                     </div>
                 )
                 }

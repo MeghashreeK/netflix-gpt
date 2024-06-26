@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const GptSearch=createSlice({
+const GptSearchSlice=createSlice({
     name:"gptstate",
     initialState:{
         gptToggle:false,
@@ -12,3 +12,6 @@ const GptSearch=createSlice({
     }
 
 })
+
+export const {gptToggleFunction} =GptSearchSlice.actions;
+export default GptSearchSlice.reducer;
